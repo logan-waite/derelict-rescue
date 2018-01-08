@@ -120,6 +120,25 @@
         margin-left: -50px;
       }
 
+      .board-tile {
+        .door {
+          position: absolute;
+
+          &.horizontal {
+            border: 2px solid yellow;
+            width: 4px;
+            height: 50px;
+          }
+
+          &.vertical {
+            border: 2px solid yellow;
+            width: 50px;
+            height: 4px;
+          }
+        }
+
+      }
+
       .possible-tile {
         border: 1px solid darkgrey;
         display: none;

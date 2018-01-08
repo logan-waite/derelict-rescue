@@ -6,33 +6,6 @@ import { Characters, Skills } from '../../api/characters/characters.js';
 import { Tiles, DiscoveredTiles } from '../../api/tiles/tiles.js';
 
 Meteor.startup(() => {
-  // if the Links collection is empty
-  if (Links.find().count() === 0) {
-    const data = [
-      {
-        title: 'Do the Tutorial',
-        url: 'https://www.meteor.com/try',
-        createdAt: new Date(),
-      },
-      {
-        title: 'Follow the Guide',
-        url: 'http://guide.meteor.com',
-        createdAt: new Date(),
-      },
-      {
-        title: 'Read the Docs',
-        url: 'https://docs.meteor.com',
-        createdAt: new Date(),
-      },
-      {
-        title: 'Discussions',
-        url: 'https://forums.meteor.com',
-        createdAt: new Date(),
-      },
-    ];
-
-    data.forEach(link => Links.insert(link));
-  }
 
   if (Skills.find().count() === 0) {
     const data = [
@@ -150,24 +123,32 @@ Meteor.startup(() => {
     // The only tile that should be in the database at the beginning is the starting airlock tile.
     DiscoveredTiles.insert({
       tile : Tiles.findOne({name:"Airlock"}),
-      position : {x:0, y:0}
+      position : {x:0, y:0},
+      doors: [
+        {x:1},
+        {x:-1},
+        {y:1}
+      ]
     })
 
-    // // these will be for testing
-    // const data = [
-    //   {
-    //     tile : Tiles.findOne({name:"Observation Deck"}),
-    //     position : {x:-1, y:0}
-    //   },
-    //   {
-    //     tile : Tiles.findOne({name:"Cargo Hold"}),
-    //     position : {x:1, y:0}
-    //   },
-    //   {
-    //     tile : Tiles.findOne({name:"Hallway"}),
-    //     position : {x:0, y:1}
-    //   }
-    // ]
-    // data.forEach(tile => DiscoveredTiles.insert(tile));
+    // these will be for testing
+    const data = [
+      {
+        tile : Tiles.findOne({name:"Observation Deck"}),
+        position : {x:-1, y:0},
+        doors: [
+          {x:1}
+        ]
+      },
+      // {
+      //   tile : Tiles.findOne({name:"Cargo Hold"}),
+      //   position : {x:1, y:0}
+      // },
+      // {
+      //   tile : Tiles.findOne({name:"Hallway"}),
+      //   position : {x:0, y:1}
+      // }
+    ]
+    data.forEach(tile => DiscoveredTiles.insert(tile));
   }
 });
