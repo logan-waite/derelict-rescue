@@ -1,0 +1,12 @@
+<template name="BaseLayout">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">{{> loginButtons align="right"}}</li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container-fluid" id="container">
+    {{> Template.dynamic template=main}}
+  </div>
+</template>

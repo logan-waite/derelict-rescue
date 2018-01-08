@@ -1,0 +1,25 @@
+<template name="playerCard">
+  {{#with character}}
+  <div id="player-card">
+    <div id="player-name">
+      {{name}}
+    </div>
+    <div id="player-picture">
+
+    </div>
+
+    <div id="skills">
+      <div class="shared-skill">
+
+      </div>
+      <div class="shared-skill">
+
+      </div>
+      <div class="private-skill">
+        <span id="player-class">{{role}}</span><br>
+        This will just be some text to simulate what will actually go into the private skill area.
+      </div>
+    </div>
+  </div>
+  {{/with}}
+</template>

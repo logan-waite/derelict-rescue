@@ -1,0 +1,137 @@
+#game {
+  background-color: black;
+  color: white;
+  height: 100%;
+  margin: 0px -15px;
+
+  .row {
+    height: 100%;
+  }
+
+  #player-info {
+
+    #player-card {
+      border: 1px solid white;
+      width: 100%;
+      margin-bottom: 10px;
+
+      #player-name {
+        margin-top: 10px;
+        width: 100%;
+        font-size: 28px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      #player-class {
+        font-size: 20px;
+      }
+
+      #player-picture {
+        width: 175px;
+        height: 175px;
+        border: 1px solid white;
+        margin: 10px auto;
+        border-radius: 100px;
+      }
+
+      #skills {
+        width: 90%;
+        margin: 0px auto 15px auto;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        .shared-skill {
+          width: 65px;
+          height: 65px;
+          border-radius: 100px;
+          background-color: red;
+        }
+
+        .private-skill {
+          width: 100%;
+          margin-top: 10px;
+          text-align: center;
+        }
+      }
+    }
+
+    #player-stats {
+      display: flex;
+      justify-content: space-around;
+      border: 1px solid white;
+
+      .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        flex: 0 1 0;
+
+        .amount {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  #game-board {
+    height: 100%;
+    // border: 1px solid yellow;
+    overflow:scroll;
+
+    #zoom {
+      position: fixed;
+      border: 1px solid white;
+      width: 30px;
+      height: 60px;
+      text-align: center;
+      z-index: 1;
+
+      #in, #out {
+        padding: 5px;
+        // border: 1px solid white;
+      }
+
+      #in {
+        border-bottom: 1px solid white;
+      }
+    }
+
+    #board {
+      background-color: #333;
+      height: 1500px;
+      width: 1500px;
+      position: absolute;
+      bottom: 0px;
+      left: 50%;
+      margin-left: -750px;
+      border: 1px solid white;
+      transform-origin: 0 0;
+
+      .board-tile, .possible-tile {
+        width: 100px;
+        height: 100px;
+        border: 1px solid white;
+        position: absolute;
+        left: 50%;
+        bottom: 0px;
+        margin-left: -50px;
+      }
+
+      .possible-tile {
+        border: 1px solid darkgrey;
+        display: none;
+      }
+
+      // #first.board-tile {
+      //   width: 100px;
+      //   position: absolute;
+      //   left: 50%;
+      //   bottom: 0px;
+      //   margin-left: -50px;
+      // }
+    }
+  }
+}
