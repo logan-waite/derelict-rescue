@@ -85,30 +85,35 @@ Meteor.startup(() => {
   if (Tiles.find().count() === 0) {
     const data = [
       {
+        tile_id : 0,
         name : "Airlock",
         size : {x:1, y:1},
         background_image : false,
         doors: 3
       },
       {
+        tile_id : 1,
         name : "Hallway",
         size : {x:1, y:2},
         background_image : false,
         doors : 4
       },
       {
-        name : "Hallway",
+        tile_id : 2,
+        name : "Engine Room",
         size : {x:2, y:1},
         background_image : false,
         doors : 4
       },
       {
+        tile_id : 3,
         name : "Cargo Hold",
         size : {x:3, y:3},
         background_image : false,
         doors : 6
       },
       {
+        tile_id : 4,
         name : "Observation Deck",
         size : {x:1, y:1},
         background_image : false,
@@ -125,21 +130,21 @@ Meteor.startup(() => {
       tile : Tiles.findOne({name:"Airlock"}),
       position : {x:0, y:0},
       doors: [
-        {x:1},
-        {x:-1},
-        {y:1}
+        {x:1, d:false},
+        {x:-1, d:false},
+        {y:1, d:false}
       ]
     })
 
     // these will be for testing
-    const data = [
-      {
-        tile : Tiles.findOne({name:"Observation Deck"}),
-        position : {x:-1, y:0},
-        doors: [
-          {x:1}
-        ]
-      },
+    // const data = [
+    //   {
+    //     tile : Tiles.findOne({name:"Observation Deck"}),
+    //     position : {x:-1, y:0},
+    //     doors: [
+    //       {x:1, d:true}
+    //     ]
+    //   },
       // {
       //   tile : Tiles.findOne({name:"Cargo Hold"}),
       //   position : {x:1, y:0}
@@ -148,7 +153,7 @@ Meteor.startup(() => {
       //   tile : Tiles.findOne({name:"Hallway"}),
       //   position : {x:0, y:1}
       // }
-    ]
-    data.forEach(tile => DiscoveredTiles.insert(tile));
+    // ]
+    // data.forEach(tile => DiscoveredTiles.insert(tile));
   }
 });

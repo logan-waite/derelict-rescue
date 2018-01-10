@@ -27,6 +27,6 @@ johanbrook:publication-collector  # Test a Meteor publication by collecting its 
 accounts-password
 accounts-ui
 twbs:bootstrap
-dbernhard:jquery-ui-draggable
 jquery
 fortawesome:fontawesome
+mizzao:jquery-ui

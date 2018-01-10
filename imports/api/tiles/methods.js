@@ -3,31 +3,41 @@ import { check, Match } from 'meteor/check';
 import { Tiles, DiscoveredTiles } from './tiles.js';
 
 Meteor.methods({
-  'discoveredTiles.insert' ({ position, tile }) {
-    console.log("***");
-    console.log(tile);
-    console.log("***")
+  'discoveredTiles.insert' (position) {
 
-    check(position, Object);
+    check(position, Match.ObjectIncluding({x:Number, y:Number}));
 
-    var sized = Match.ObjectIncluding({x:Number, y:Number})
-    console.log(sized);
-    console.log("***")
+    var tile = discoverTile();
 
-    check(tile, {
-      _id: String,
-      name: String,
-      size: sized,
-      background_image: Match.Any,
-      doors: Number
-    });
+
+
+    // var already_discovered = DiscoveredTiles.find().fetch();
+    //
+    // already_discovered.forEach(function(dtile) {
+    //   // console.log(dtile);
+    // })
 
     return DiscoveredTiles.insert({
       position : position,
       tile : tile
     })
   },
+
   'discoveredTiles.one' ({ _id }) {
     return DiscoveredTiles.findOne({_id:_id})
   }
 });
+
+function discoverTile() {
+  var tile = getRandomTile()
+
+  return tile;
+}
+
+function getRandomTile() {
+  var random_tile_id = Math.floor((Math.random() * 5))
+
+  return Tiles.findOne({"tile_id" : random_tile_id});
+
+  // return tile;
+}
