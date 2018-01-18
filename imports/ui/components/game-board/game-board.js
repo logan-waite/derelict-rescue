@@ -31,8 +31,19 @@ Template.gameBoard.helpers({
     var tiles = DiscoveredTiles.find().fetch();
     tiles.forEach(function(tile) {
       var btile = tile.tile;
+
       // create board-tile template
       var bt_object = $("<div class='board-tile' id="+tile._id+"></div>");
+
+      var btile_size = btile.size;
+      if (btile_size.x > 1) {
+        var width = btile_size.x * 100;
+        bt_object.css("width", width + "px");
+      }
+      if (btile_size.y > 1) {
+        var height = btile_size.y * 100;
+        bt_object.css("height", height + "px");
+      }
       // Add any specific things to the tile before appending it
       bt_object.html(btile.name);
       // Now append the object to the game board.
