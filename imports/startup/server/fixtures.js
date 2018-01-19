@@ -3,7 +3,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Links } from '../../api/links/links.js';
 import { Characters, Skills } from '../../api/characters/characters.js';
-import { Tiles, DiscoveredTiles } from '../../api/tiles/tiles.js';
+import { Rooms, DiscoveredRooms } from '../../api/tiles/tiles.js';
 
 Meteor.startup(() => {
 
@@ -82,38 +82,38 @@ Meteor.startup(() => {
     data.forEach(character => Characters.insert(character));
   }
 
-  if (Tiles.find().count() === 0) {
+  if (Rooms.find().count() === 0) {
     const data = [
       {
-        tile_id : 0,
+        room_id : 0,
         name : "Airlock",
         size : {x:1, y:1},
         background_image : false,
         doors: 3
       },
       {
-        tile_id : 1,
+        room_id : 1,
         name : "Hallway",
         size : {x:1, y:2},
         background_image : false,
         doors : 4
       },
       {
-        tile_id : 2,
+        room_id : 2,
         name : "Engine Room",
         size : {x:2, y:1},
         background_image : false,
         doors : 4
       },
       {
-        tile_id : 3,
+        room_id : 3,
         name : "Cargo Hold",
         size : {x:3, y:3},
         background_image : false,
         doors : 6
       },
       {
-        tile_id : 4,
+        room_id : 4,
         name : "Observation Deck",
         size : {x:1, y:1},
         background_image : false,
@@ -121,18 +121,25 @@ Meteor.startup(() => {
       }
     ]
 
-    data.forEach(tile => Tiles.insert(tile))
+    data.forEach(room => Rooms.insert(room))
   }
 
-  if(DiscoveredTiles.find().count() === 0) {
-    // The only tile that should be in the database at the beginning is the starting airlock tile.
-    DiscoveredTiles.insert({
-      tile : Tiles.findOne({name:"Airlock"}),
+  if(DiscoveredRooms.find().count() === 0) {
+    // The only room that should be in the database at the beginning is the starting airlock room.
+    DiscoveredRooms.insert({
+      room : Rooms.findOne({name:"Airlock"}),
       position : {x:0, y:0},
-      doors: [
-        {x:1, d:false},
-        {x:-1, d:false},
-        {y:1, d:false}
+      doors : [
+        {x:1, d:false, b:0},
+        {x:-1, d:false, b:0},
+        {y:1, d:false, b:0}
+      ],
+      tiles : [
+        {
+          tile_id : 0,
+          position : { x : 0, y : 0 },
+          door : true
+        }
       ]
     })
 

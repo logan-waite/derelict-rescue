@@ -110,17 +110,33 @@
       border: 1px solid white;
       transform-origin: 0 0;
 
-      .board-tile, .possible-tile {
+      .room, .possible-room {
         width: 100px;
         height: 100px;
-        border: 1px solid white;
         position: absolute;
         left: 50%;
         bottom: 0px;
         margin-left: -50px;
       }
 
-      .board-tile {
+      .room {
+        border: 1px solid red;
+
+        span {
+          position: absolute;
+        }
+
+        .tile {
+          border: 1px solid white;
+          width: 100px;
+          height: 100px;
+          // float: left;
+          margin: -1px;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+        }
+
         .door {
           position: absolute;
 
@@ -139,7 +155,7 @@
 
       }
 
-      .possible-tile {
+      .possible-room {
         border: 1px solid darkgrey;
         display: none;
       }

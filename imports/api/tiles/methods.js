@@ -1,9 +1,9 @@
 import { Meteor } from 'meteor/meteor';
 import { check, Match } from 'meteor/check';
-import { Tiles, DiscoveredTiles } from './tiles.js';
+import { Rooms, DiscoveredRooms } from './tiles.js';
 
 Meteor.methods({
-  'discoveredTiles.insert' (position, prev_tile_id) {
+  'discoveredRooms.insert' (position, prev_tile_id) {
 
     check(position, Match.ObjectIncluding({x:Number, y:Number}));
     check(prev_tile_id, String);
@@ -12,22 +12,22 @@ Meteor.methods({
 
     var tile = discoverTile(prev_tile_pos, position);
 
-    return DiscoveredTiles.insert(tile);
+    return DiscoveredRooms.insert(tile);
   },
 
-  'discoveredTiles.one' ({ _id }) {
-    return DiscoveredTiles.findOne({_id:_id})
+  'discoveredRooms.one' ({ _id }) {
+    return DiscoveredRooms.findOne({_id:_id})
   }
 });
 
 function getTilePosition(tile_id) {
-  var tile = DiscoveredTiles.findOne({_id:tile_id});
+  var tile = DiscoveredRooms.findOne({_id:tile_id});
   return tile.position;
 }
 
 function discoverTile(prev_tile_pos, position) {
-  // var tile = getRandomTile()
-  var tile = Tiles.findOne({"tile_id" : 3});
+  var tile = getRandomTile()
+  // var tile = Rooms.findOne({"tile_id" : 3});
 
   // Set doors for this tile
   var doors = generateDoors(tile, prev_tile_pos, position);
@@ -38,7 +38,7 @@ function discoverTile(prev_tile_pos, position) {
 function getRandomTile() {
   var random_tile_id = Math.floor((Math.random() * 5))
 
-  return Tiles.findOne({"tile_id" : random_tile_id});
+  return Rooms.findOne({"tile_id" : random_tile_id});
 
   return tile;
 }
