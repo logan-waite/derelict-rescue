@@ -178,13 +178,16 @@ Template.gameBoard.events({
     hidePossibleRooms($(event.target).attr("id"))
     // Start off by getting the position of the tile we're hovering over
     var h_room = $(event.target);
-    var id_pattern = /t_([A-Za-z0-9]+)_\d/g;
-    var room_id = id_pattern.exec(h_room.attr("id"));
-    var room = DiscoveredRooms.findOne({_id:room_id[1]})
-    console.log(room_id);
+    var id_pattern = /t_([A-Za-z0-9]+)_(\d)/g;
+    var ids = id_pattern.exec(h_room.attr("id"));
+    var room_id = ids[1];
+    var tile_id = ids[2];
+    var room = DiscoveredRooms.findOne({_id:room_id})
     // var position = tile.position;
     // We're going to want to create a possible tile for each door
-    showPossibleRooms(room);
+    if (room.tiles[tile_id].door) {
+      showPossibleRooms(room, tile_id);
+    }
   },
   'dragstart .player' (event, ui) {
     $(event.target).css({"position": "relative"});
@@ -237,41 +240,42 @@ function placeDoors(room_obj, doors) {
   })
 }
 
-function showPossibleRooms(room) {
-  console.log(room)
+function showPossibleRooms(room, tile_id) {
   room.doors.forEach(function(door_position) {
     // first we need to check if the door has already been "discovered"
     if (!door_position.d) {
-      pr_obj = $("<div class='possible-room r_" + room._id + "'></div>");
+      pr_obj = $("<div class='possible-room r_" + room._id + "' tile='"+tile_id+"'></div>");
       var bottom, left;
 
       if (door_position.x !== undefined) { // On one of the sides
-        bottom = (tile.position.y + door_position.b) * 100 // This will be affected by the "b" parameter
-        left = ((tile.position.x + door_position.x) * 100) + -50;
+        bottom = (room.position.y + door_position.b) * 100 // This will be affected by the "b" parameter
+        left = ((room.position.x + door_position.x) * 100) + -50;
       }
       else if (door_position.y !== undefined) { // On top or bottom
-        bottom = ((tile.position.y + door_position.y) * 100);
-        left = ((tile.position.x + door_position.b) * 100) + -50; // This will be affected by the "b" parameter
+        bottom = ((room.position.y + door_position.y) * 100);
+        left = ((room.position.x + door_position.b) * 100) + -50; // This will be affected by the "b" parameter
       }
-      $('#board').append(pr_object);
+      $('#board').append(pr_obj);
 
       // bind all the possible-tile events now because they weren't around earlier to bind.
-      pt_object.droppable({
+      pr_obj.droppable({
         accept: ".player",
         drop : function(event, ui) {
           // When the player drops on this, we need to find its position and save a new discovered tile.
+          console.log(ui);
           var target = $(event.target);
           var room_classes = target.attr("class");
+          var tile_id = target.attr("tile");
           var id_pattern = /r_([A-Za-z0-9]+)/g;
           var d_room_id = id_pattern.exec(room_classes)[1]
           var y_pos = parseInt(target.css("bottom")) / 100;
           var x_pos = (parseInt(target.css("margin-left")) + 50) / 100;
-          var new_room_id = newDiscoveredTile({x:x_pos, y:y_pos}, d_room_id);
+          var new_room_id = newDiscoveredTile({x:x_pos, y:y_pos}, d_room_id, tile_id);
           $(ui.draggable).css({"position": "initial"}).appendTo("#" + new_room_id);
         }
       })
       // Then we do the same thing as if adding a tile, just add 1 to the positions before multiplying them.
-      pr_object.css({"bottom": bottom, "margin-left": left}).show();
+      pr_obj.css({"bottom": bottom, "margin-left": left}).show();
     }
   });
 }
@@ -284,8 +288,8 @@ function hidePossibleRooms(room_id) {
   }
 }
 
-function newDiscoveredTile(position, tile_id) {
-  Meteor.call("discoveredTiles.insert", position, tile_id, (error, result) => {
+function newDiscoveredTile(position, d_room_id, tile_id) {
+  Meteor.call("discoveredRooms.insert", position, d_room_id, tile_id, (error, result) => {
     if (error) {
       console.log(error);
     }
